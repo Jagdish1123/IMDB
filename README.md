@@ -19,7 +19,6 @@ The IMDb Clone is a web application developed using React, HTML, JavaScript, and
 - JavaScript
 - Tailwind CSS
 
- ![Uploading Screenshot 2024-07-24 212238.png…]()
 
 
 
