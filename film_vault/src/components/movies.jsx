@@ -5,7 +5,7 @@ import axios from 'axios';
 import Cards from './cards';
 import Pagination from './pagination';
 
-function Movies({  watchlist,handleAddtoWatchlist, handleRemoveFromWatchList }) {
+function Movies({ watchlist, handleAddtoWatchlist, handleRemoveFromWatchList }) {
   const [movies, setMovies] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -13,7 +13,7 @@ function Movies({  watchlist,handleAddtoWatchlist, handleRemoveFromWatchList }) 
   useEffect(() => {
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/popular?api_key=f38d2af3bbc9c079e48fd87c88112e0a&language=en-US&page=${pageNo}`
+        `https://api.themoviedb.org/3/movie/popular?api_key=YOURKEY&language=en-US&page=${pageNo}`
       )
       .then((res) => {
         setMovies(res.data.results);
@@ -34,8 +34,8 @@ function Movies({  watchlist,handleAddtoWatchlist, handleRemoveFromWatchList }) 
 
   return (
     <div className="p-5">
-      <div className="text-2xl m-5 font-bold text-center">Trending Movies</div>
-      <div className="flex flex-row flex-wrap justify-around m-5">
+      <div className="text-center text-2xl font-bold m-5 p-3 bg-gradient-to-r from-red-700 via-red-600 to-red-700 text-white rounded-lg shadow-lg hover:bg-gradient-to-l hover:from-red-700 hover:via-red-500 hover:to-black transition-all duration-300">Trending Movies</div>
+      <div className="flex flex-wrap justify-around m-5 p-4 bg-gray-100 rounded-lg shadow-md">
         {movies.map((movieObj) => (
           <Cards
             key={movieObj.id.toString()}

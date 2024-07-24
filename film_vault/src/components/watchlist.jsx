@@ -19,16 +19,12 @@ const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList }) => {
   };
 
   const sortIncreasing = () => {
-    const sorted = [...watchlist].sort((movieA, movieB) => {
-      return movieA.vote_average - movieB.vote_average;
-    });
+    const sorted = [...watchlist].sort((movieA, movieB) => movieA.vote_average - movieB.vote_average);
     setWatchlist(sorted);
   };
 
   const sortDecreasing = () => {
-    const sorted = [...watchlist].sort((movieA, movieB) => {
-      return movieB.vote_average - movieA.vote_average;
-    });
+    const sorted = [...watchlist].sort((movieA, movieB) => movieB.vote_average - movieA.vote_average);
     setWatchlist(sorted);
   };
 
@@ -42,39 +38,52 @@ const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList }) => {
     setGenreList(['All Genres', ...temp.filter((genre, index, self) => self.indexOf(genre) === index)]);
   }, [watchlist]);
 
-
-
   return (
-    <>
-      <div className='flex justify-center flex-wrap m-4'>
+    <div className="p-8">
+      {/* Genre Filter */}
+      <div className='flex flex-wrap justify-center gap-2 mb-6'>
         {genreList.map((genre) => (
           <div
             key={genre}
             onClick={() => handleGenreChange(genre)}
-            className={`flex justify-center items-center h-12 w-36 rounded-xl font-bold p-2 m-2 cursor-pointer ${currgenre === genre ? 'bg-blue-400 text-white' : 'bg-gray-400 bg-opacity-50 text-gray-800'}`}
+            className={`flex items-center justify-center h-12 w-36 rounded-xl font-semibold p-3 cursor-pointer transition-transform duration-300 ${currgenre === genre ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-800'}`}
           >
             {genre}
           </div>
         ))}
       </div>
 
-      <div className='flex justify-center my-4'>
-        <input onChange={handleSearch} value={search} type="text" placeholder='Search Movies' className='h-12 w-72 bg-gray-200 outline-none px-4' />
+      {/* Search Input */}
+      <div className='flex justify-center mb-6'>
+        <input 
+          onChange={handleSearch} 
+          value={search} 
+          type="text" 
+          placeholder='Search Movies' 
+          className='h-12 w-72 bg-gray-100 border border-gray-300 rounded-lg px-4 outline-none focus:ring-2 focus:ring-blue-500'
+        />
       </div>
 
-      <div className='overflow-hidden rounded-lg border border-gray-200 m-8'>
-        <table className='w-full text-gray-600 text-center'>
-          <thead className='border-b-2'>
+      {/* Movies Table */}
+      <div className='overflow-x-auto rounded-lg border border-gray-200 shadow-lg'>
+        <table className='w-full text-gray-700 text-sm border-separate border-spacing-0'>
+          <thead className='bg-gray-100 border-b border-gray-300'>
             <tr>
-              <th>Name</th>
-              <th className='flex justify-center '>
-                <div onClick={sortIncreasing} className='p-2'><FaArrowUp className='text-gray-600' /></div>
-                <div className=''>Ratings</div>
-                <div onClick={sortDecreasing} className='p-2'><FaArrowDown className='text-gray-600' /></div>
+              <th className='py-3 px-4 text-left font-semibold border-r border-gray-300'>Name</th>
+              <th className='py-3 px-4 font-semibold border-r border-gray-300'>
+                <div className='flex items-center justify-center space-x-2'>
+                  <div onClick={sortIncreasing} className='p-2 cursor-pointer hover:bg-gray-200 rounded-full'>
+                    <FaArrowUp className='text-gray-600' />
+                  </div>
+                  <span>Ratings</span>
+                  <div onClick={sortDecreasing} className='p-2 cursor-pointer hover:bg-gray-200 rounded-full'>
+                    <FaArrowDown className='text-gray-600' />
+                  </div>
+                </div>
               </th>
-              <th>Popularity</th>
-              <th>Genre</th>
-              <th>Action</th>
+              <th className='py-3 px-4 font-semibold border-r border-gray-300'>Popularity</th>
+              <th className='py-3 px-4 font-semibold border-r border-gray-300'>Genre</th>
+              <th className='py-3 px-4 font-semibold'>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -87,31 +96,32 @@ const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList }) => {
                   return movieObj.genre_ids.includes(genre.id);
                 }
               })
-
-              .filter((movieObj) =>
-                movieObj.title.toLowerCase().includes(search)
-              )
+              .filter((movieObj) => movieObj.title.toLowerCase().includes(search))
               .map((movieObj, index) => (
-                <tr key={index} className='border border-gray-300'>
-                  <td className='flex items-center px-6 py-4'>
-                    <img className='h-20 w-20 rounded-lg' src={`https://image.tmdb.org/t/p/original/${movieObj.poster_path}`} alt="" />
-                    <div className='mx-5'>{movieObj.title}</div>
+                <tr key={index} className='border-b border-gray-300'>
+                  <td className='flex items-center px-4 py-3 border-r border-gray-300'>
+                    <img 
+                      className='h-16 w-16 rounded-lg object-cover'
+                      src={`https://image.tmdb.org/t/p/original/${movieObj.poster_path}`} 
+                      alt={movieObj.title} 
+                    />
+                    <div className='ml-4'>{movieObj.title}</div>
                   </td>
-                  <td className='border border-gray-300 px-4 py-2'>{movieObj.vote_average}</td>
-                  <td className='border border-gray-300 px-4 py-2'>{movieObj.popularity}</td>
-                  <td className='border border-gray-300 px-4 py-2'>
+                  <td className='px-4 py-3 border-r border-gray-300'>{movieObj.vote_average}</td>
+                  <td className='px-4 py-3 border-r border-gray-300'>{movieObj.popularity}</td>
+                  <td className='px-4 py-3 border-r border-gray-300'>
                     {movieObj.genre_ids.map(id => {
                       const genre = genres.find(g => g.id === id);
                       return genre ? <span key={id} className='mr-2'>{genre.name}</span> : null;
                     })}
                   </td>
-                  <td className='text-red-600 border border-gray-300 px-4 py-2 cursor-pointer' onClick={() => handleRemoveFromWatchList(movieObj)}>Delete</td>
+                  <td className='text-red-600 px-4 py-3 cursor-pointer hover:underline' onClick={() => handleRemoveFromWatchList(movieObj)}>Delete</td>
                 </tr>
               ))}
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 };
 
