@@ -1,0 +1,10 @@
+Setup:
+    vite            :   npm create vite@latest
+    tailwind css    :   npm install -D tailwindcss postcss autoprefixer
+                        npx tailwindcss init -p
+    react routing   :   npm install react-router-dom 
+                        npm install localforage match-sorter sort-by 
+    api key  --url  :   'https://api.themoviedb.org/3/movie/popular?api_key=YOURKEY&language=en-US&page=1' \
+    react icons     :   npm install react-icons --save
+                        yarn add react-icons
+
