@@ -10,29 +10,24 @@ import './App.css';
 function App() {
   const [watchlist, setWatchlist] = useState([]);
 
+  // Load watchlist from localStorage on component mount
   useEffect(() => {
-    // Load watchlist from localStorage on component mount
-    const movieFromLocalStorage = localStorage.getItem('movieApp');
-    if (movieFromLocalStorage) {
-      setWatchlist(JSON.parse(movieFromLocalStorage));
-    }
-  }, []); // Empty dependency array ensures this effect runs only on mount
+    const savedWatchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+    setWatchlist(savedWatchlist);
+  }, []);
 
-  const handleAddtoWatchlist = (movieObj) => {
-    // Update the watchlist state
-    setWatchlist((prevWatchlist) => [...prevWatchlist, movieObj]);
+  const handleAddtoWatchlist = (movie) => {
+    const updatedWatchlist = [...watchlist, movie];
+    setWatchlist(updatedWatchlist);
+    localStorage.setItem('watchlist', JSON.stringify(updatedWatchlist));
+  };
   
-    // Update localStorage with the new watchlist
-    localStorage.setItem('movieApp', JSON.stringify([...watchlist, movieObj]));
+  const handleRemoveFromWatchList = (movieID) => {
+    const updatedWatchlist = watchlist.filter((movie) => movie.imdbID !== movieID);
+    setWatchlist(updatedWatchlist);
+    localStorage.setItem('watchlist', JSON.stringify(updatedWatchlist));
   };
-
-  const handleRemoveFromWatchList = (movieObj) => {
-    const filteredWatchlist = watchlist.filter((movie) => movie.id !== movieObj.id);
-    setWatchlist(filteredWatchlist);
-
-    // Update localStorage with the updated watchlist after removal
-    localStorage.setItem('movieApp', JSON.stringify(filteredWatchlist));
-  };
+  
 
   return (
     <>

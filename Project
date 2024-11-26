@@ -4,7 +4,7 @@ Setup:
                         npx tailwindcss init -p
     react routing   :   npm install react-router-dom 
                         npm install localforage match-sorter sort-by 
-    api key  --url  :   'https://api.themoviedb.org/3/movie/popular?api_key=YOURKEY&language=en-US&page=1' \
+    api key  --url  :   'https://api.themoviedb.org/3/movie/popular?api_key=f38d2af3bbc9c079e48fd87c88112e0a&language=en-US&page=1' \
     react icons     :   npm install react-icons --save
                         yarn add react-icons
 
