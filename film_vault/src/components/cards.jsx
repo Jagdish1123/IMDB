@@ -3,25 +3,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Cards = ({ movieObj, poster_path, name, handleAddtoWatchlist, handleRemoveFromWatchList, watchlist }) => {
-    const imageUrl = `https://image.tmdb.org/t/p/original/${poster_path}`;
 
     const addToWatchList = () => {
-        handleAddtoWatchlist(movieObj);
+        handleAddtoWatchlist(movieObj); // Only adds the selected movie
     };
 
     const removeFromWatchList = () => {
-        handleRemoveFromWatchList(movieObj);
+        handleRemoveFromWatchList(movieObj.imdbID); // Remove by the unique movie ID (imdbID)
     };
 
     const isContainedInWatchlist = (movie) => {
-        return watchlist.some((item) => item.id === movie.id);
+        return watchlist.some((item) => item.imdbID === movie.imdbID); // Use imdbID to check uniqueness
     };
 
     return (
-        <div   className="relative h-80 w-52 m-2 bg-cover bg-center rounded-xl hover:cursor-pointer hover:scale-110 duration-300 flex flex-col justify-between items-end"
-        style={{ backgroundImage: `url(${imageUrl})` }}>
+        <div className="relative h-80 w-52 m-2 bg-cover bg-center rounded-xl hover:cursor-pointer hover:scale-110 duration-300 flex flex-col justify-between items-end"
+            style={{ backgroundImage: `url(${poster_path})` }}>
+
             {isContainedInWatchlist(movieObj) ? (
-                <div onClick={removeFromWatchList} className="m-4 h-8 w-8 flex items-center justify-center rounded-full bg-gray-800/50  cursor-pointer hover:bg-gray-800/70">
+                <div onClick={removeFromWatchList} className="m-4 h-8 w-8 flex items-center justify-center rounded-full bg-gray-800/50 cursor-pointer hover:bg-gray-800/70">
                     &#x274c; {/* This is the red X symbol */}
                 </div>
             ) : (
@@ -30,10 +30,9 @@ const Cards = ({ movieObj, poster_path, name, handleAddtoWatchlist, handleRemove
                 </div>
             )}
 
-
-<div className="m-2 p-0.5 font-medium text-center bg-gray-100 border border-red-300 rounded-lg shadow-lg ">
-    {name}
-</div>
+            <div className="m-2 p-0.5 font-medium text-center bg-gray-100 border border-red-300 rounded-lg shadow-lg">
+                {name}
+            </div>
 
         </div>
     );
@@ -46,7 +45,6 @@ Cards.propTypes = {
     handleAddtoWatchlist: PropTypes.func.isRequired,
     handleRemoveFromWatchList: PropTypes.func.isRequired,
     watchlist: PropTypes.array.isRequired,
-
 };
 
 export default Cards;
