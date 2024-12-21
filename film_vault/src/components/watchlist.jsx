@@ -26,6 +26,9 @@ const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList, handleA
     const sorted = [...watchlist].sort((movieA, movieB) => movieB.vote_average - movieA.vote_average);
     setWatchlist(sorted);
   };
+//   const removeFromWatchList = () => {
+//     handleRemoveFromWatchList(movieObj.imdbID); // Remove by the unique movie ID (imdbID)
+// };
 
   useEffect(() => {
     const temp = watchlist.flatMap((movieObj) => {
@@ -133,7 +136,7 @@ const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList, handleA
                   </td>
                   <td
                     className="text-red-600 px-4 py-3 cursor-pointer hover:underline"
-                    onClick={() => handleRemoveFromWatchList(movieObj)}
+                    onClick={() => handleRemoveFromWatchList(movieObj.imdbID)}
                   >
                     Delete
                   </td>

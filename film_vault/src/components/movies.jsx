@@ -19,6 +19,7 @@ function Movies({watchlist,handleAddtoWatchlist,handleRemoveFromWatchList}) {
           `https://www.omdbapi.com/?s=movie&type=movie&page=${pageNo}&apikey=d19cd846`
         );
 
+        console.log(response);
         if (response.data.Response === "True") {
           setMovies(response.data.Search || []);
           setTotalPages(Math.ceil(response.data.totalResults / 10));
