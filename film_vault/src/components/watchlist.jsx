@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import genres from '../utility/genre';
 
-const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList, handleAddToWatchlist }) => {
+const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList }) => {
   const [search, setSearch] = useState('');
   const [genreList, setGenreList] = useState(['All Genres']);
   const [currgenre, setCurrgenre] = useState('All Genres');
@@ -26,16 +26,14 @@ const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList, handleA
     const sorted = [...watchlist].sort((movieA, movieB) => movieB.vote_average - movieA.vote_average);
     setWatchlist(sorted);
   };
-//   const removeFromWatchList = () => {
-//     handleRemoveFromWatchList(movieObj.imdbID); // Remove by the unique movie ID (imdbID)
-// };
+
 
   useEffect(() => {
     const temp = watchlist.flatMap((movieObj) => {
       return movieObj?.genre_ids?.map((id) => {
         const genre = genres.find((g) => g.id === id);
         return genre ? genre.name : null;
-      }) || []; // Ensure it returns an empty array if genre_ids is undefined
+      }) || []; 
     });
     setGenreList(['All Genres', ...new Set(temp.filter(Boolean))]);
   }, [watchlist]);
@@ -44,7 +42,7 @@ const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList, handleA
   return (
     <div className="p-8">
       {/* Add Movie Button */}
-      <div className="flex justify-center mb-6">
+      {/* <div className="flex justify-center mb-6">
         <button
           onClick={() => handleAddToWatchlist({
             Title: "New Movie", 
@@ -57,7 +55,7 @@ const Watchlist = ({ watchlist, setWatchlist, handleRemoveFromWatchList, handleA
         >
           Add Movie
         </button>
-      </div>
+      </div> */}
 
       {/* Genre Filter */}
       <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -153,7 +151,7 @@ Watchlist.propTypes = {
   watchlist: PropTypes.array.isRequired,
   setWatchlist: PropTypes.func.isRequired,
   handleRemoveFromWatchList: PropTypes.func.isRequired,
-  handleAddToWatchlist: PropTypes.func.isRequired,
+
 };
 
 export default Watchlist;
